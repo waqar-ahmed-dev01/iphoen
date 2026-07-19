@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+    <link rel="icon" href="/imges/favicon.png" sizes="500x500">
+    <title>IPhone 15 Project</title>
+<head>
+    <style>
+        body { background: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
+        .iphone { width: 340px; height: 700px; background: #000; border-radius: 55px; border: 4px solid #333; position: relative; overflow: hidden; }
+        .status-bar { position: absolute; top: 0; width: 100%; height: 40px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; color: white; font-size: 12px; z-index: 300; box-sizing: border-box; background: rgba(0,0,0,0.5); }
+        .battery-container { display: flex; align-items: center; gap: 5px; }
+        .battery-body { width: 25px; height: 12px; border: 1px solid white; border-radius: 2px; padding: 1px; }
+        #battery-level { height: 100%; background: #4cd964; width: 100%; }
+        
+        .screen { width: 100%; height: 100%; background: linear-gradient(135deg, #2c3e50, #000); padding-top: 40px; box-sizing: border-box; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; }
+        .app-icon { width: 60px; height: 60px; border-radius: 14px; display: flex; justify-content: center; align-items: center; cursor: pointer; color: white; font-size: 10px; font-weight: bold; background: #444; }
+        .dock { position: absolute; bottom: 40px; left: 20px; right: 20px; height: 80px; background: rgba(255,255,255,0.15); border-radius: 20px; display: flex; justify-content: space-around; align-items: center; backdrop-filter: blur(10px); }
+        
+        .page { display: none; width: 100%; height: 100%; background: white; color: black; position: absolute; top: 0; z-index: 250; padding: 60px 20px 20px 20px; box-sizing: border-box; }
+        .page.active { display: block; }
+        .back-btn { background: #333; color: white; padding: 8px 15px; border-radius: 15px; border: none; cursor: pointer; margin-bottom: 20px; }
+        #lock-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: white; background: #000; position: absolute; top: 0; width: 100%; z-index: 400; }
+    </style>
+</head>
+<body>
+
+<div class="iphone">
+    <div class="status-bar">
+        <span id="time">14:21</span>
+        <span>WiFi</span>
+        <div class="battery-container">
+            <span id="batt-text">100%</span>
+            <div class="battery-body"><div id="battery-level"></div></div>
+        </div>
+    </div>
+    
+    <div id="lock-screen">
+        <h3>Enter Passcode</h3>
+        <input type="password" id="pin" style="padding:10px; text-align:center;" maxlength="4" placeholder="">
+        <br><button onclick="checkPin()">Unlock</button>
+    </div>
+
+    <div class="screen" id="home-screen" style="display:none;">
+        
+        <div class="grid" id="app-grid">
+            <div class="app-icon" onclick="showPage('youtube-page')"><img style="height: 50px;" src="/imges/s1.webp" alt=""></div>
+            <div class="app-icon" onclick="showPage('settings-page')"><img style="height: 50px;" src="/imges/s2.webp" alt=""></div>
+            <div class="app-icon" onclick="showPage('photos-page')"><img style="height: 50px;" src="/imges/s3.png" alt=""></div>
+            <div class="app-icon" onclick="showPage('chat-page')"><img style="height: 50px;" src="/imges/s4.webp" alt=""></div>
+            <div class="app-icon" onclick="showPage('store-page')"><img style="height: 50px;" src="/imges/s5.webp" alt=""></div>
+        </div>
+        <div class="dock">
+            <div class="app-icon" onclick="showPage('camera-page')"><img style="height: 50px;" src="/imges/s6.webp" alt=""></div>
+            <div class="app-icon" onclick="showPage('game-page')"><img style="height: 50px;" src="/imges/s7.png" alt=""></div>
+        </div>
+    </div>
+
+    <!-- REGISTERED PAGES -->
+    <div id="youtube-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>YouTube</h3>
+        <div style="width: 300px; height: 150px;  border-radius: 30px;"><img style="height: 160px; border-radius: 30px;" src="/imges/s9.jpg" alt=""></div>
+        <br>
+        <div style="width: 300px; height: 150px; border-radius: 30px;"><img style="height: 160px; border-radius: 30px;" src="/imges/s10.jpg" alt=""></div>
+        <br>
+        <div style="width: 300px; height: 150px; border-radius: 30px;"><img style="height: 160px; border-radius: 30px;" src="/imges/s11.jpg" alt=""></div>
+    </div>
+    <div id="settings-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>Settings</h3><button onclick="charge()">Charge Battery</button></div>
+    <div id="photos-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>Photos</h3>
+    <div style="width: 300px; height: 150px;  border-radius: 30px;"><img style="height: 160px; border-radius: 30px;" src="/imges/s13.jpg" alt=""></div>
+        <br>
+        <div style="width: 300px; height: 150px; border-radius: 30px;"><img style="height: 160px; border-radius: 30px;" src="/imges/s14.jpg" alt=""></div>
+        <br>
+        <div style="width: 300px; height: 150px; border-radius: 30px;"><img style="height: 160px; border-radius: 30px; text-align: center;" src="/imges/s12.jpg" alt=""></div>
+    
+    </div>
+    <div id="chat-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>Chat</h3>
+    <div style="width: 300px; height: 30px; color: #fff; border-radius: 50px; background-color: darkgrey;"><h3 style="margin-top: 15px; margin-left: 10px;">Chat</h3></div>
+    <div></div>
+    </div>
+    <div id="camera-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>Camera</h3></div>
+    <div id="game-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>Fire Game</h3></div>
+    <div id="store-page" class="page"><button class="back-btn" onclick="hideAllPages()">Back</button><h3>App Store</h3>
+        <button style="padding: 20px; background-color: #5856d6; color: #fff; border-radius: 14px;" onclick="install('Maps', '#af52de')">Install Maps</button>
+        <button style="padding: 20px; background-color: #5856d6; color: #fff; border-radius: 14px;" onclick="install('Music', '#5856d6')">Install Music</button>
+        <br><br>
+            
+        <button style="padding: 20px; background-color: #5856d6; color: #fff; border-radius: 14px;" onclick="install('Granny', '#5856d6')">Granny</button>
+        
+    </div>
+</div>
+
+<script>
+    let b = 100;
+    setInterval(() => {
+        if(b > 0) { b--; document.getElementById('batt-text').innerText = b + "%"; document.getElementById('battery-level').style.width = b + "%"; }
+        const t = new Date();
+        document.getElementById('time').innerText = t.getHours() + ":" + t.getMinutes();
+    }, 10000);
+
+    function charge() { b = 100; document.getElementById('batt-text').innerText = "100%"; document.getElementById('battery-level').style.width = "100%"; }
+    function checkPin() { if(document.getElementById('pin').value==="0000"){ document.getElementById('lock-screen').style.display='none'; document.getElementById('home-screen').style.display='block'; } else alert("Wrong!"); }
+    function showPage(id) { document.getElementById(id).classList.add('active'); }
+    function hideAllPages() { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); }
+    
+    function install(name, color) {
+        const g = document.getElementById('app-grid');
+        const id = name.toLowerCase() + '-page';
+        const n = document.createElement('div');
+        n.className='app-icon'; n.style.backgroundColor=color; n.innerText=name;
+        n.onclick = () => showPage(id);
+        g.appendChild(n);
+        
+        const p = document.createElement('div');
+        p.id = id; p.className = 'page';
+        p.innerHTML = `<button class="back-btn" onclick="hideAllPages()">Back</button><h3>${name} App</h3>`;
+        document.querySelector('.iphone').appendChild(p);
+        alert(name + ' installed!');
+        hideAllPages();
+    }
+</script>
+</body>
+</html>
